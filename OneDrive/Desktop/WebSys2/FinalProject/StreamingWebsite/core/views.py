@@ -1,7 +1,15 @@
 from django.shortcuts import render, redirect
-from .models import Movie, Banner, Side_items, Geners
+from .models import Movie, Banner, Side_items, Geners, Profile
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def profile_view(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    return render(request, 'profile.html', {
+        'profile': profile
+    })
 
 
 

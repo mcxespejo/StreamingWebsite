@@ -21,9 +21,42 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core'
+    'core.apps.CoreConfig',
+    'django.contrib.sites',  # required by allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google', # for Google OAuth
 ]
 
+# Add site ID (default usually 1)
+SITE_ID = 1
+
+# Authentication backends
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# Redirect URLs after login/logout
+LOGIN_REDIRECT_URL = '/profile/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+# Optional: allauth settings to simplify signup/login
+ACCOUNT_EMAIL_VERIFICATION = 'none'  # can be "mandatory", "optional", or "none"
+ACCOUNT_AUTHENTICATION_METHOD = 'username'  # or 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '437553200884-sert5s769flppae9d8vfoqofbubma245.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
+    }
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -32,6 +65,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
+
 ]
 
 ROOT_URLCONF = 'Project.urls'
