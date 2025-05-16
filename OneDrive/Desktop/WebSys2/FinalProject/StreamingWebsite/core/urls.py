@@ -1,5 +1,6 @@
 from django.urls import path
 from .views import home, movie_detail, anime_watching, blog, categories, user_login, signup, categorie, profile_view
+from . import views
 
 urlpatterns = [
     path('', home, name='home'),
@@ -10,5 +11,5 @@ urlpatterns = [
     path('categories/<slug:slug>/', categories, name='categories'),
     path('login/', user_login, name='login'),
     path('signup/', signup, name='signup'),
-    path('profile/', profile_view, name='profile'),
+    path('profile/', views.profile_view, name='profile'),
 ]
