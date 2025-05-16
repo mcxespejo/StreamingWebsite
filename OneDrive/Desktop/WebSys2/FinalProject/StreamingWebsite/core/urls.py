@@ -11,5 +11,6 @@ urlpatterns = [
     path('categories/<slug:slug>/', categories, name='categories'),
     path('login/', user_login, name='login'),
     path('signup/', signup, name='signup'),
-    path('profile/', views.profile_view, name='profile'),
+    path('profile/', profile_view, name='profile'),
+    path('movie/<slug:slug>/', views.movie_detail, name='movie_detail'),
 ]

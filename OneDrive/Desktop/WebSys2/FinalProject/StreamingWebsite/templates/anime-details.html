@@ -70,17 +70,14 @@
                 <!-- Search Form End -->
 
                 <!-- Optional: Show a "5" badge beside the search icon -->
-                <div class="col-lg-2">
-                    <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        {% if user.is_authenticated %}
-                            <a href="{% url 'profile' %}"><span class="icon_profile"></span></a>
-                        {% else %}
-                            <a href="{% url 'account_login' %}"><span class="icon_profile"></span></a>
-                        {% endif %}
+                <div class="header__right ml-3 position-relative">
+                    <a href="#" class="search-switch">
+                        <span class="icon_search"></span>
+                        <span class="badge badge-danger position-absolute" style="top: -5px; right: -10px;">5</span>
+                    </a>
+                        <a href="./login.html"><span class="icon_profile"></span></a>
                     </div>
                 </div>
-
             </div>
             <div id="mobile-menu-wrap"></div>
         </div>

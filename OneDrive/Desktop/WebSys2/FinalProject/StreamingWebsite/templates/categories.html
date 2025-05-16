@@ -64,11 +64,7 @@
                 <div class="col-lg-2">
                     <div class="header__right">
                         <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        {% if user.is_authenticated %}
-                            <a href="{% url 'profile' %}"><span class="icon_profile"></span></a>
-                        {% else %}
-                            <a href="{% url 'account_login' %}"><span class="icon_profile"></span></a>
-                        {% endif %}
+                        <a href="./login.html"><span class="icon_profile"></span></a>
                     </div>
                 </div>
             </div>
@@ -94,95 +90,142 @@
     <!-- Breadcrumb End -->
 
     <!-- Product Section Begin -->
-    <section class="product-page spad">
+    <section class="product spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="product__page__content">
-                        <div class="product__page__title">
-                            <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-6">
-                                    <div class="section-title">
-                                        <h4>{{categorie}}</h4>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-6">
-                                    <div class="product__page__filter">
-                                        <p>Order by:</p>
-                                        <select>
-                                            <option value="">A-Z</option>
-                                            <option value="">1-10</option>
-                                            <option value="">10-50</option>
-                                        </select>
-                                    </div>
+                    <!-- Most Popular -->
+                    <div class="trending__product">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="section-title"><h4>Most Popular</h4></div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="btn__all">
+                                    <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-
-
-
-
-                            {% for movie in movies %}
+                            {% for movie in most_popular %}
                             <div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="product__item">
                                     <div class="product__item__pic set-bg" data-setbg="{{ movie.image.url }}">
-                                        <!-- Movie details like episode, comments, views -->
+                                        <div class="ep">{{ movie.rating }} / 10</div>
+                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
                                     </div>
                                     <div class="product__item__text">
-                                        <ul>
-                                            <!-- Movie status and type -->
-                                        </ul>
-                                        <h5><a href="#">{{ movie.title }}</a></h5>
+                                        <ul>{% for genrs in movie.genres.all %}<li>{{ genrs.title }}</li>{% endfor %}</ul>
+                                        <h5><a href="{% url 'movie_detail' slug=movie.new_slug %}">{{ movie.title }}</a></h5>
                                     </div>
                                 </div>
                             </div>
                             {% endfor %}
-                            
-                            
-                            
                         </div>
                     </div>
-                    <div class="product__pagination">
-                        <a href="#" class="current-page">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <a href="#">5</a>
-                        <a href="#"><i class="fa fa-angle-double-right"></i></a>
+
+                    <!-- Trending Now -->
+                    <div class="popular__product">
+                        <div class="row">
+                            <div class="col-lg-8"><div class="section-title"><h4>Trending Now</h4></div></div>
+                            <div class="col-lg-4"><div class="btn__all"><a href="#" class="primary-btn">View All <span class="arrow_right"></span></a></div></div>
+                        </div>
+                        <div class="row">
+                            {% for movie in trending_now %}
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="product__item">
+                                    <div class="product__item__pic set-bg" data-setbg="{{ movie.image.url }}">
+                                        <div class="ep">{{ movie.rating }} / 10</div>
+                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                                    </div>
+                                    <div class="product__item__text">
+                                        <ul>{% for genrs in movie.genres.all %}<li>{{ genrs.title }}</li>{% endfor %}</ul>
+                                        <h5><a href="{% url 'movie_detail' slug=movie.new_slug %}">{{ movie.title }}</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
+
+                    <!-- Top Rated -->
+                    <div class="recent__product">
+                        <div class="row">
+                            <div class="col-lg-8"><div class="section-title"><h4>Top Rated</h4></div></div>
+                            <div class="col-lg-4"><div class="btn__all"><a href="#" class="primary-btn">View All <span class="arrow_right"></span></a></div></div>
+                        </div>
+                        <div class="row">
+                            {% for movie in top_rated %}
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="product__item">
+                                    <div class="product__item__pic set-bg" data-setbg="{{ movie.image.url }}">
+                                        <div class="ep">{{ movie.rating }} / 10</div>
+                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                                    </div>
+                                    <div class="product__item__text">
+                                        <ul>{% for genrs in movie.genres.all %}<li>{{ genrs.title }}</li>{% endfor %}</ul>
+                                        <h5><a href="{% url 'movie_detail' slug=movie.new_slug %}">{{ movie.title }}</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Recommended For You -->
+                    <div class="recommended__product">
+                        <div class="row">
+                            <div class="col-lg-8"><div class="section-title"><h4>Recommended for You</h4></div></div>
+                            <div class="col-lg-4"><div class="btn__all"><a href="#" class="primary-btn">View All <span class="arrow_right"></span></a></div></div>
+                        </div>
+                        <div class="row">
+                            {% for movie in recommended %}
+                            <div class="col-lg-4 col-md-6 col-sm-6">
+                                <div class="product__item">
+                                    <div class="product__item__pic set-bg" data-setbg="{{ movie.image.url }}">
+                                        <div class="ep">{{ movie.rating }} / 10</div>
+                                        <div class="view"><i class="fa fa-eye"></i> {{ movie.views_count }}</div>
+                                    </div>
+                                    <div class="product__item__text">
+                                        <ul>{% for genre in movie.genres.all %}<li>{{ genre.title }}</li>{% endfor %}</ul>
+                                        <h5><a href="{% url 'movie_detail' slug=movie.new_slug %}">{{ movie.title }}</a></h5>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
                 </div>
+
+                <!-- Sidebar -->
                 <div class="col-lg-4 col-md-6 col-sm-8">
                     <div class="product__sidebar">
                         <div class="product__sidebar__view">
-                            <div class="section-title">
-                                <h5>Top Views</h5>
-                            </div>
+                            <div class="section-title"><h5>Top Views</h5></div>
                             <ul class="filter__controls">
                                 <li class="active" data-filter="*">Day</li>
                                 <li data-filter=".week">Week</li>
                                 <li data-filter=".month">Month</li>
                                 <li data-filter=".years">Years</li>
                             </ul>
-                            {% for side_item in side_items %}
                             <div class="filter__gallery">
-                                <div class="product__sidebar__view__item set-bg mix day years"
-                                data-setbg={{ side_item.picture.url }}>
-                                <div class="ep">{{side_item.rating}} / 10</div>
-                                <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                <h5><a href="#">{{side_item.title}}</a></h5>
+                                {% for side_item in side_items %}
+                                <div class="product__sidebar__view__item set-bg mix day years" data-setbg="{{ side_item.picture.url }}">
+                                    <div class="ep">{{ side_item.rating }} / 10</div>
+                                    <div class="view"><i class="fa fa-eye"></i> 9141</div>
+                                    <h5><a href="#">{{ side_item.title }}</a></h5>
+                                </div>
+                                {% endfor %}
                             </div>
-                            {% endfor %}
-                            
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </div>
-    
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Product Section End -->
+    </section>
+    <!-- Product Section End -->
 
 <!-- Footer Section Begin -->
 <footer class="footer">

@@ -1,21 +1,50 @@
-from django.shortcuts import render, redirect
-from .models import Movie, Banner, Side_items, Geners, Profile
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Movie, Banner, Side_items, Geners, Profile, Category
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from .utils import recommend_similar_movies
+import random
 
 @login_required
 def profile_view(request):
-    return render(request, './profile.html')
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    return render(request, 'profile.html', {
+        'profile': profile
+    })
 
+def movie_detail(request, slug):
+    movie = get_object_or_404(Movie, new_slug=slug)
+    categories = Category.objects.all()
+    side_items = Movie.objects.all()
+
+    # Get top 20 movies by views (or change to rating if you prefer)
+    top_movies = Movie.objects.exclude(id=movie.id).order_by('-views_count')[:20]
+
+     # Randomly select 6 from the top movies
+    recommended_movies = random.sample(list(top_movies), min(6, len(top_movies)))
+
+    context = {
+        'movie': movie,
+        'categories': categories,
+        'side_items': side_items,
+        'recommended': recommended_movies,  # ← add this line
+    }
+    return render(request, 'core/movie_detail.html', context)
 
 
 def home(request):
     banners = Banner.objects.all()
-    most_popular = Movie.objects.filter(status='MP')
-    trending_now = Movie.objects.filter(status='TN')
-    top_rated = Movie.objects.filter(status='TR')
-    side_items = Side_items.objects.all()
+    most_popular = Movie.objects.order_by('-views_count')[:6]
+    most_popular_ids = most_popular.values_list('id', flat=True)
+    trending_now = Movie.objects.exclude(id__in=most_popular_ids).order_by('-release_date')[:6]
+    top_rated = Movie.objects.order_by('-rating')[:6]
+    side_items = Movie.objects.order_by('-views_count')[:5]
+
+    # Recommended logic: get top 20 by views, randomly pick 6
+    
+    top_movies = Movie.objects.order_by('-views_count')[:20]
+    recommended = random.sample(list(top_movies), min(6, len(top_movies)))
 
     context ={
         'most_popular': most_popular,
@@ -23,6 +52,7 @@ def home(request):
         'banners': banners, 
         'side_items': side_items,
         'top_rated': top_rated,
+        'recommended': recommended,
     }
     return render(request, 'index.html', context)
 
