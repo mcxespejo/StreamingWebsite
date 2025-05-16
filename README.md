@@ -21,7 +21,7 @@ This is a Django-based website for streaming and viewing information about anime
 
 ## Setup
 1. **Clone the repository:**
-git clone https://github.com/CodeWithRanjHa/Animi-Website-With-Django.git
+git clone https://github.com/mcxespejo/StreamingWebsite.git
 
 
 
