@@ -8,7 +8,7 @@ SECRET_KEY = 'django-insecure-^k6eoyu-!p8=d^-wd5gex2hg%!@=2q5e5lg$e_fy407*_9=*m1
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['streamingwebsite.onrender.com']
+ALLOWED_HOSTS = ['streamingwebsite.onrender.com', '127.0.0.1']
 
 
 
