@@ -20,3 +20,9 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+import django
+django.setup()
+from django.core.management import call_command
+call_command('migrate')

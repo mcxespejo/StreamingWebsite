@@ -44,8 +44,8 @@ LOGIN_REDIRECT_URL = '/profile/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 # Optional: allauth settings to simplify signup/login
 ACCOUNT_EMAIL_VERIFICATION = 'none'  # can be "mandatory", "optional", or "none"
-ACCOUNT_AUTHENTICATION_METHOD = 'username'  # or 'email'
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_LOGIN_METHOD = {'username'}  # or 'email'
+ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
