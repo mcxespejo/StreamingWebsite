@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: StreamingWebsite
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn Project.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: StreamingWebsite.settings
+      - key: SECRET_KEY
+        value: django-insecure-^k6eoyu-!p8=d^-wd5gex2hg%!@=2q5e5lg$e_fy407*_9=*m1
+      - key: DEBUG
+        value: False
