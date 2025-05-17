@@ -1,5 +1,5 @@
 from pathlib import Path
-from decouple import load_dotenv
+from dotenv import load_dotenv
 import os
 import dj_database_url
 
@@ -11,7 +11,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1'] 
 
-ALLOWED_HOSTS =  os.getenv('ALLOWED_HOSTS').split('  ')
+ALLOWED_HOSTS =  os.getenv('ALLOWED_HOSTS', '').split()
 
 
 
@@ -95,9 +95,18 @@ WSGI_APPLICATION = 'Project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default':  dj_database_url.parse(os.environ.get('DATABASE_URL'),  conn_max_age=600), 
-}
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+    }
+else:
+    # Fallback to sqlite for development
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Password validation
