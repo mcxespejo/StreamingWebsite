@@ -1,14 +1,17 @@
 from pathlib import Path
+from dotenv import load_dotenv
 import os
+import dj_database_url
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+load_dotenv(BASE_DIR / '.env') 
 
+SECRET_KEY = os.getenv('django-insecure-^k6eoyu-!p8=d^-wd5gex2hg%!@=2q5e5lg$e_fy407*_9=*m1')
 
-SECRET_KEY = 'django-insecure-^k6eoyu-!p8=d^-wd5gex2hg%!@=2q5e5lg$e_fy407*_9=*m1'
+DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1'] 
 
-DEBUG = True
-
-ALLOWED_HOSTS = ['streamingwebsite.onrender.com', '127.0.0.1']
+ALLOWED_HOSTS =  os.getenv('ALLOWED_HOSTS').split('  ')
 
 
 
@@ -93,10 +96,7 @@ WSGI_APPLICATION = 'Project.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default':  dj_database_url.parse(os.environ.get('DATABASE_URL'),  conn_max_age=600), 
 }
 
 
